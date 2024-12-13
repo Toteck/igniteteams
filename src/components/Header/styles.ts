@@ -1,6 +1,5 @@
 import styled from "styled-components/native";
 import { Feather } from "@expo/vector-icons";
-import { CaretLeft } from "phosphor-react-native";
 
 export const Container = styled.View`
   width: 100%;
