@@ -6,15 +6,27 @@ import { Container, Form, HeaderList, NumberOfPlayers } from "./styles";
 import { Input } from "@components/Input";
 import { Filter } from "@components/Filter";
 import { Header } from "@components/Header";
+import { Button } from "@components/Button";
 import { ListEmpty } from "@components/ListEmpty";
 import { Highlight } from "@components/Highlight";
 import { ButtonIcon } from "@components/ButtonIcon";
 import { PlayerCard } from "@components/PlayerCard";
-import { Button } from "@components/Button";
 
 export function Players() {
   const [team, setTeam] = useState("Time A");
-  const [players, setPlayers] = useState([]);
+  const [players, setPlayers] = useState([
+    "Mateus",
+    "Marcos",
+    "Lucas",
+    "João",
+    "Pedro",
+    "Tiago",
+    "Paulo",
+    "Moises",
+    "Abraão",
+    "Maria",
+    "Marta",
+  ]);
 
   return (
     <Container>
