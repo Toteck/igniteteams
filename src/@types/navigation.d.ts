@@ -1,11 +1,7 @@
-export declare global {
-    namespace: ReactNavigation {
-        interface RootParamList {
-            groups: undefined;
-            new: undefined;
-            players: {
-                group: string;
-            }
-        }
-    }
-}
+import { NavigatorScreenParams } from "@react-navigation/native";
+
+export type RootStackParamList = {
+  groups: undefined;
+  new: undefined;
+  players: { group: string };
+};

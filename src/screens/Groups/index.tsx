@@ -10,11 +10,15 @@ import { ListEmpty } from "@components/ListEmpty";
 
 import { Container } from "./styles";
 import { groupsGetAll } from "@storage/group/groupsGetAll";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "src/@types/navigation";
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export function Groups() {
   const [groups, setGroups] = useState<string[]>([]);
 
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
 
   function handleNewGroup() {
     navigation.navigate("new");
