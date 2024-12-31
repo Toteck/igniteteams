@@ -37,15 +37,16 @@ export function Players() {
         "Informe o nome da pessoa para adicionar"
       );
     }
-
+    const newPlayerNameCleaned = newPlayerName.trim();
     const newPlayer = {
-      name: newPlayerName,
+      name: newPlayerNameCleaned,
       team,
     };
 
     try {
       await playerAddByGroup(newPlayer, group);
       fetchPlayersByTeam();
+      setNewPlayerName("");
     } catch (error) {
       if (error instanceof AppError) {
         Alert.alert("Nova pessoa", error.message);
