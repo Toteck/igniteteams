@@ -1,6 +1,7 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
+import { Alert, FlatList, TextInput, Keyboard } from "react-native";
+
 import { useRoute } from "@react-navigation/native";
-import { Alert, FlatList } from "react-native";
 import { AppError } from "@utils/AppError";
 
 import { Container, Form, HeaderList, NumberOfPlayers } from "./styles";
@@ -30,6 +31,8 @@ export function Players() {
   const route = useRoute();
   const { group } = route.params as RouteParams;
 
+  const newPlayerNameInputRef = useRef<TextInput>(null);
+
   async function handleAddPlayer() {
     if (newPlayerName.trim().length === 0) {
       return Alert.alert(
@@ -45,6 +48,10 @@ export function Players() {
 
     try {
       await playerAddByGroup(newPlayer, group);
+      // Tira o foco do input
+      newPlayerNameInputRef.current?.blur();
+      // Alternativa
+      // Keyboard.dimiss(): Força o fechamento do teclado
       fetchPlayersByTeam();
       setNewPlayerName("");
     } catch (error) {
@@ -85,9 +92,13 @@ export function Players() {
 
       <Form>
         <Input
+          inputRef={newPlayerNameInputRef}
           placeholder="Nome da pessoa"
           autoCorrect={false}
           onChangeText={setNewPlayerName}
+          value={newPlayerName}
+          onSubmitEditing={handleAddPlayer}
+          returnKeyType="done"
         />
         <ButtonIcon icon="add" onPress={handleAddPlayer} />
       </Form>
