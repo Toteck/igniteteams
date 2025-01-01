@@ -1,9 +1,10 @@
 import { useCallback, useState } from "react";
-import { FlatList } from "react-native";
+import { Alert, FlatList } from "react-native";
 import { useFocusEffect, useNavigation } from "@react-navigation/native";
 
 import { Header } from "@components/Header";
 import { Button } from "@components/Button";
+import { Loading } from "@components/Loading";
 import { Highlight } from "@components/Highlight";
 import { GroupCard } from "@components/GroupCard";
 import { ListEmpty } from "@components/ListEmpty";
@@ -16,6 +17,7 @@ import { RootStackParamList } from "src/@types/navigation";
 type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export function Groups() {
+  const [isLoading, setIsLoading] = useState(true);
   const [groups, setGroups] = useState<string[]>([]);
 
   const navigation = useNavigation<NavigationProp>();
@@ -26,10 +28,15 @@ export function Groups() {
 
   async function fetchGroups() {
     try {
+      setIsLoading(true);
+
       const data = await groupsGetAll();
+
       setGroups(data);
+      setIsLoading(false);
     } catch (error) {
       console.log(error);
+      Alert.alert("Turmas", "Não foi possível carregar as turmas");
     }
   }
 
@@ -47,19 +54,22 @@ export function Groups() {
     <Container>
       <Header />
       <Highlight title="Turmas" subtitle="Jogue com a sua turma!" />
-
-      <FlatList
-        data={groups}
-        keyExtractor={(item) => item}
-        renderItem={({ item }) => (
-          <GroupCard title={item} onPress={() => handleOpenGroup(item)} />
-        )}
-        contentContainerStyle={groups.length === 0 && { flex: 1 }}
-        ListEmptyComponent={() => (
-          <ListEmpty message="Que tal cadastrar a primeira turma?" />
-        )}
-        showsVerticalScrollIndicator={false}
-      />
+      {isLoading ? (
+        <Loading />
+      ) : (
+        <FlatList
+          data={groups}
+          keyExtractor={(item) => item}
+          renderItem={({ item }) => (
+            <GroupCard title={item} onPress={() => handleOpenGroup(item)} />
+          )}
+          contentContainerStyle={groups.length === 0 && { flex: 1 }}
+          ListEmptyComponent={() => (
+            <ListEmpty message="Que tal cadastrar a primeira turma?" />
+          )}
+          showsVerticalScrollIndicator={false}
+        />
+      )}
       <Button title="Criar nova turma" onPress={handleNewGroup} />
     </Container>
   );

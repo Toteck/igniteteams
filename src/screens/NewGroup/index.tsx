@@ -9,10 +9,14 @@ import { useState } from "react";
 import { groupCreate } from "@storage/group/groupCreate";
 import { AppError } from "@utils/AppError";
 import { Alert } from "react-native";
+import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { RootStackParamList } from "src/@types/navigation";
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export function NewGroup() {
   const [group, setGroup] = useState("");
-  const navigation = useNavigation();
+  const navigation = useNavigation<NavigationProp>();
 
   async function handleNew() {
     try {
